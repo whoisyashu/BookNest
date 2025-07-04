@@ -250,12 +250,12 @@ router.post('/refresh', [
     throw new BadRequestError(errors.array()[0].msg);
   }
 
+  // Expecting { token: <refresh_token> } in the request body
   const { token } = req.body;
 
   try {
     // Verify refresh token
-    const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
-    
+    const decoded = require('../utils/jwt').verifyRefreshToken(token);
     let user;
     if (decoded.role === 'seller') {
       user = await Seller.findById(decoded.id);
@@ -267,19 +267,24 @@ router.post('/refresh', [
       throw new UnauthorizedError('User not found');
     }
 
-    // Generate new token
+    // Generate new access token
     const tokenPayload = decoded.role === 'seller' 
       ? generateSellerTokenPayload(user)
       : generateBuyerTokenPayload(user);
     const newToken = generateToken(tokenPayload);
+    // Generate new refresh token
+    const { generateRefreshToken } = require('../utils/jwt');
+    const newRefreshToken = generateRefreshToken(tokenPayload);
 
     res.json({
       success: true,
       data: {
-        token: newToken
+        token: newToken,
+        refreshToken: newRefreshToken
       }
     });
   } catch (error) {
+    console.error('Refresh token error:', error.message, error.stack); // For debugging
     throw new UnauthorizedError('Invalid refresh token');
   }
 }));
