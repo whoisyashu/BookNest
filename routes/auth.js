@@ -8,6 +8,7 @@ const { BadRequestError, UnauthorizedError } = require('../utils/errors');
 const Seller = require('../models/Seller');
 const Buyer = require('../models/Buyer');
 const SellerTier = require('../models/SellerTier');
+const Admin = require('../models/Admin');
 
 const router = express.Router();
 
@@ -281,6 +282,58 @@ router.post('/refresh', [
   } catch (error) {
     throw new UnauthorizedError('Invalid refresh token');
   }
+}));
+
+// @desc    Login admin
+// @route   POST /api/auth/admin/login
+// @access  Public
+router.post('/admin/login', [
+  body('email').isEmail().withMessage('Please enter a valid email'),
+  body('password').notEmpty().withMessage('Password is required')
+], asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    throw new BadRequestError(errors.array()[0].msg);
+  }
+
+  const { email, password } = req.body;
+
+  // Check if admin exists
+  const admin = await Admin.findOne({ email });
+  if (!admin) {
+    throw new UnauthorizedError('Invalid credentials');
+  }
+
+  // Check if password matches
+  const isMatch = await admin.comparePassword(password);
+  if (!isMatch) {
+    throw new UnauthorizedError('Invalid credentials');
+  }
+
+  // Check if admin is active
+  if (!admin.isActive) {
+    throw new UnauthorizedError('Account is deactivated');
+  }
+
+  // Generate token
+  const tokenPayload = {
+    id: admin._id,
+    email: admin.email,
+    role: 'admin'
+  };
+  const token = generateToken(tokenPayload);
+
+  res.json({
+    success: true,
+    data: {
+      admin: {
+        id: admin._id,
+        name: admin.name,
+        email: admin.email
+      },
+      token
+    }
+  });
 }));
 
 module.exports = router; 

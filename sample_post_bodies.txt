@@ -1,0 +1,117 @@
+# BookNest API Sample POST Request Bodies
+
+# 1. Seller Register
+POST /api/auth/seller/register
+{
+  "name": "John Seller",
+  "email": "seller@example.com",
+  "password": "password123",
+  "phone": "1234567890",
+  "tierId": "<TIER_ID>"
+}
+
+# 2. Buyer Register
+POST /api/auth/buyer/register
+{
+  "name": "Jane Buyer",
+  "email": "buyer@example.com",
+  "password": "password123",
+  "phone": "0987654321",
+  "address": "123 Main St, City, Country"
+}
+
+# 3. Seller Login
+POST /api/auth/seller/login
+{
+  "email": "seller@example.com",
+  "password": "password123"
+}
+
+# 4. Buyer Login
+POST /api/auth/buyer/login
+{
+  "email": "buyer@example.com",
+  "password": "password123"
+}
+
+# 5. Refresh Token
+POST /api/auth/refresh
+{
+  "token": "<REFRESH_TOKEN>"
+}
+
+# 6. Create Book (Seller)
+POST /api/seller/books
+{
+  "title": "Sample Book",
+  "author": "Author Name",
+  "ISBN": "1234567890123",
+  "price": 19.99,
+  "quantity": 10,
+  "description": "A great book.",
+  "genre": "Fiction",
+  "language": "English",
+  "condition": "like_new",  # new, like_new, good, fair, poor
+  "format": "hardcover"      # hardcover, paperback, ebook, audiobook
+}
+
+# 7. Add Item to Cart (Buyer)
+POST /api/buyer/cart/items
+{
+  "bookId": "<BOOK_ID>",
+  "quantity": 2
+}
+
+# 8. Add Book to Wishlist (Buyer)
+POST /api/buyer/wishlist/books
+{
+  "bookId": "<BOOK_ID>"
+}
+
+# 9. Create Review (Buyer)
+POST /api/buyer/reviews
+{
+  "bookId": "<BOOK_ID>",
+  "rating": 5,
+  "comment": "Amazing book!"
+}
+
+# 10. Create Order from Cart (Buyer)
+POST /api/orders/checkout
+{
+  "shippingAddress": {
+    "street": "123 Main St",
+    "city": "Metropolis",
+    "state": "NY",
+    "zipCode": "10001",
+    "country": "USA"
+  },
+  "paymentMethod": "credit_card",
+  "notes": "Please deliver between 9am-5pm."
+}
+
+# 11. Create Single Book Order (Buyer)
+POST /api/orders
+{
+  "bookId": "<BOOK_ID>",
+  "quantity": 1,
+  "shippingAddress": {
+    "street": "123 Main St",
+    "city": "Metropolis",
+    "state": "NY",
+    "zipCode": "10001",
+    "country": "USA"
+  },
+  "paymentMethod": "credit_card",
+  "notes": "Gift wrap, please."
+}
+
+# 12. Create Seller Tier (Admin)
+POST /api/admin/tiers
+{
+  "name": "Gold",
+  "maxListings": 100,
+  "commissionRate": 5.0
+}
+
+# Replace <BOOK_ID>, <TIER_ID>, <REFRESH_TOKEN> with actual values from your database or previous API responses. 
