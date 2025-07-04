@@ -6,6 +6,10 @@ const sellerSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, match: /.+\@.+\..+/ },
   phone: { type: String },
   password: { type: String, required: true },
+  isActive: {
+    type: Boolean,
+    default: true
+  },
   registrationDate: {
     type: Date,
     required: true,

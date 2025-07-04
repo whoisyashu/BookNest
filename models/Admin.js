@@ -7,6 +7,10 @@ const AdminSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  isActive: {
+    type: Boolean,
+    default: true
+  },
   email: {
     type: String,
     required: true,
