@@ -109,15 +109,17 @@ app.use(errorHandler);
 // MongoDB connection
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(
-      process.env.NODE_ENV === 'production' 
-        ? process.env.MONGODB_URI_PROD 
-        : process.env.MONGODB_URI,
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    );
+    // Use MONGO_URI for both development and production
+    const mongoUri = process.env.MONGO_URI;
+    
+    if (!mongoUri) {
+      throw new Error('MONGO_URI environment variable is not set');
+    }
+    
+    const conn = await mongoose.connect(mongoUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error('MongoDB connection error:', error);
