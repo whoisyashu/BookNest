@@ -89,6 +89,77 @@ router.get('/', optionalAuth, asyncHandler(async (req, res) => {
   });
 }));
 
+// @desc    Get books by seller
+// @route   GET /api/books/seller/:sellerId
+// @access  Public
+router.get('/seller/:sellerId', asyncHandler(async (req, res) => {
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = parseInt(req.query.limit, 10) || 10;
+  const startIndex = (page - 1) * limit;
+
+  const books = await Book.find({ 
+    sellerId: req.params.sellerId,
+    isActive: true 
+  })
+    .populate('sellerId', 'name')
+    .sort({ createdAt: -1 })
+    .skip(startIndex)
+    .limit(limit);
+
+  const total = await Book.countDocuments({ 
+    sellerId: req.params.sellerId,
+    isActive: true 
+  });
+
+  res.json({
+    success: true,
+    data: books,
+    pagination: {
+      page,
+      limit,
+      total,
+      pages: Math.ceil(total / limit)
+    }
+  });
+}));
+
+// @desc    Get current seller's books
+// @route   GET /api/books/seller
+// @access  Private (Seller only)
+router.get('/seller', protect, authorize('seller'), asyncHandler(async (req, res) => {
+  console.log('Seller books request - User:', req.user);
+  console.log('Seller ID:', req.user.sellerId);
+
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = parseInt(req.query.limit, 10) || 10;
+  const startIndex = (page - 1) * limit;
+
+  const books = await Book.find({ 
+    sellerId: req.user.sellerId
+  })
+    .populate('sellerId', 'name')
+    .sort({ createdAt: -1 })
+    .skip(startIndex)
+    .limit(limit);
+
+  const total = await Book.countDocuments({ 
+    sellerId: req.user.sellerId
+  });
+
+  console.log(`Found ${books.length} books for seller ${req.user.sellerId}`);
+
+  res.json({
+    success: true,
+    data: books,
+    pagination: {
+      page,
+      limit,
+      total,
+      pages: Math.ceil(total / limit)
+    }
+  });
+}));
+
 // @desc    Get book by ID
 // @route   GET /api/books/:id
 // @access  Public
@@ -221,73 +292,6 @@ router.get('/search', asyncHandler(async (req, res) => {
   });
 }));
 
-// @desc    Get books by seller
-// @route   GET /api/books/seller/:sellerId
-// @access  Public
-router.get('/seller/:sellerId', asyncHandler(async (req, res) => {
-  const page = parseInt(req.query.page, 10) || 1;
-  const limit = parseInt(req.query.limit, 10) || 10;
-  const startIndex = (page - 1) * limit;
-
-  const books = await Book.find({ 
-    sellerId: req.params.sellerId,
-    isActive: true 
-  })
-    .populate('sellerId', 'name')
-    .sort({ createdAt: -1 })
-    .skip(startIndex)
-    .limit(limit);
-
-  const total = await Book.countDocuments({ 
-    sellerId: req.params.sellerId,
-    isActive: true 
-  });
-
-  res.json({
-    success: true,
-    data: books,
-    pagination: {
-      page,
-      limit,
-      total,
-      pages: Math.ceil(total / limit)
-    }
-  });
-}));
-
-// @desc    Get current seller's books
-// @route   GET /api/books/seller
-// @access  Private (Seller only)
-router.get('/seller', protect, authorize('seller'), asyncHandler(async (req, res) => {
-
-  const page = parseInt(req.query.page, 10) || 1;
-  const limit = parseInt(req.query.limit, 10) || 10;
-  const startIndex = (page - 1) * limit;
-
-  const books = await Book.find({ 
-    sellerId: req.user.id
-  })
-    .populate('sellerId', 'name')
-    .sort({ createdAt: -1 })
-    .skip(startIndex)
-    .limit(limit);
-
-  const total = await Book.countDocuments({ 
-    sellerId: req.user.id
-  });
-
-  res.json({
-    success: true,
-    data: books,
-    pagination: {
-      page,
-      limit,
-      total,
-      pages: Math.ceil(total / limit)
-    }
-  });
-}));
-
 // @desc    Create a new book
 // @route   POST /api/books
 // @access  Private (Seller only)
@@ -331,7 +335,7 @@ router.post('/', protect, authorize('seller'), asyncHandler(async (req, res) => 
     publisher,
     pages,
     tags,
-    sellerId: req.user.id
+    sellerId: req.user.sellerId
   });
 
   res.status(201).json({
