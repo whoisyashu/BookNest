@@ -109,15 +109,26 @@ app.use(errorHandler);
 // MongoDB connection
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(
-      process.env.NODE_ENV === 'production' 
-        ? process.env.MONGODB_URI_PROD 
-        : process.env.MONGODB_URI,
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    );
+    // Debug logging
+    console.log('Environment variables:');
+    console.log('NODE_ENV:', process.env.NODE_ENV);
+    console.log('MONGODB_URI_PROD:', process.env.MONGODB_URI_PROD ? 'SET' : 'NOT SET');
+    console.log('MONGODB_URI:', process.env.MONGODB_URI ? 'SET' : 'NOT SET');
+    
+    const mongoUri = process.env.NODE_ENV === 'production' 
+      ? process.env.MONGODB_URI_PROD 
+      : process.env.MONGODB_URI;
+    
+    console.log('Using MongoDB URI:', mongoUri ? 'AVAILABLE' : 'UNDEFINED');
+    
+    if (!mongoUri) {
+      throw new Error('MongoDB URI is not defined in environment variables');
+    }
+    
+    const conn = await mongoose.connect(mongoUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error('MongoDB connection error:', error);
@@ -128,6 +139,12 @@ const connectDB = async () => {
 // Start server
 const PORT = process.env.PORT || 5000;
 const startServer = async () => {
+  // Set NODE_ENV if not defined
+  if (!process.env.NODE_ENV) {
+    process.env.NODE_ENV = 'production';
+    console.log('NODE_ENV not set, defaulting to production');
+  }
+  
   await connectDB();
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
