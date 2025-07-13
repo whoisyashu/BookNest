@@ -115,14 +115,16 @@ const connectDB = async () => {
     console.log('MONGODB_URI_PROD:', process.env.MONGODB_URI_PROD ? 'SET' : 'NOT SET');
     console.log('MONGODB_URI:', process.env.MONGODB_URI ? 'SET' : 'NOT SET');
     
-    const mongoUri = process.env.NODE_ENV === 'production' 
+    let mongoUri = process.env.NODE_ENV === 'production' 
       ? process.env.MONGODB_URI_PROD 
       : process.env.MONGODB_URI;
     
     console.log('Using MongoDB URI:', mongoUri ? 'AVAILABLE' : 'UNDEFINED');
     
+    // Fallback for testing
     if (!mongoUri) {
-      throw new Error('MongoDB URI is not defined in environment variables');
+      console.log('Using fallback MongoDB URI');
+      mongoUri = 'mongodb+srv://MCBZvJHnwSJynTV0:MCBZvJHnwSJynTV0@booknest.wwxa5bj.mongodb.net/booknest?retryWrites=true&w=majority&appName=BookNest';
     }
     
     const conn = await mongoose.connect(mongoUri, {
