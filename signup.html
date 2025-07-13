@@ -186,9 +186,7 @@
           
           // Register based on user type
           if (userType.value === 'seller') {
-            // For seller registration, you might need to add tierId
-            // You can either hardcode a default tier or get it from your backend
-            userData.tierId = 'your-default-tier-id'; // Replace with actual tier ID
+            // tierId will be handled automatically by the backend
             response = await api.registerSeller(userData);
           } else {
             response = await api.registerBuyer(userData);

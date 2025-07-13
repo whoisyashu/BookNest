@@ -39,7 +39,7 @@ router.post('/seller/register', [
   body('email').isEmail().withMessage('Please enter a valid email'),
   body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
   body('phone').optional().trim(),
-  body('tierId').isMongoId().withMessage('Valid tier ID is required')
+  body('tierId').optional().isMongoId().withMessage('Valid tier ID is required if provided')
 ], asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -54,10 +54,27 @@ router.post('/seller/register', [
     throw new BadRequestError('Seller with this email already exists');
   }
 
-  // Verify tier exists
-  const tier = await SellerTier.findById(tierId);
-  if (!tier) {
-    throw new BadRequestError('Invalid tier ID');
+  let tier;
+  
+  // If tierId is provided, verify it exists
+  if (tierId) {
+    tier = await SellerTier.findById(tierId);
+    if (!tier) {
+      throw new BadRequestError('Invalid tier ID');
+    }
+  } else {
+    // Create or get default tier
+    tier = await SellerTier.findOne({ name: 'Basic' });
+    if (!tier) {
+      tier = await SellerTier.create({
+        name: 'Basic',
+        maxListings: 10,
+        commissionRate: 5,
+        perks: {
+          description: 'Basic seller tier with standard features'
+        }
+      });
+    }
   }
 
   // Create seller
@@ -66,7 +83,7 @@ router.post('/seller/register', [
     email,
     password,
     phone,
-    tierId
+    tierId: tier._id
   });
 
   // Generate token

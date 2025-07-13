@@ -6,6 +6,8 @@ const api = {
   // Seller Registration
   async registerSeller(userData) {
     try {
+      console.log('Sending seller registration data:', userData);
+      
       const response = await fetch(`${API_BASE_URL}/auth/seller/register`, {
         method: 'POST',
         headers: {
@@ -15,6 +17,7 @@ const api = {
       });
       
       const data = await response.json();
+      console.log('Seller registration response:', data);
       
       if (!response.ok) {
         throw new Error(data.message || 'Registration failed');
@@ -22,6 +25,7 @@ const api = {
       
       return data;
     } catch (error) {
+      console.error('Seller registration error:', error);
       throw error;
     }
   },
