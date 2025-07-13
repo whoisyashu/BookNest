@@ -704,10 +704,14 @@
                 const data = await api.getSellerBooks();
                 sellerBooks = data.data || [];
                 updateBooksUI();
+                // Calculate stats from books data
+                calculateStatsFromBooks();
             } catch (error) {
                 console.error('Error loading seller books:', error);
-                // Show empty state
+                sellerBooks = [];
                 updateBooksUI();
+                // Calculate stats from empty books array
+                calculateStatsFromBooks();
             }
         }
 
@@ -719,9 +723,36 @@
                 updateStatsUI();
             } catch (error) {
                 console.error('Error loading seller stats:', error);
-                // Use default stats
-                updateStatsUI();
+                // Calculate stats from books data as fallback
+                calculateStatsFromBooks();
             }
+        }
+
+        // Calculate stats from books data
+        function calculateStatsFromBooks() {
+            const totalBooks = sellerBooks.length;
+            const totalRevenue = sellerBooks.reduce((sum, book) => {
+                // Calculate potential revenue (price * quantity)
+                return sum + (book.price * book.quantity);
+            }, 0);
+            
+            // Calculate average rating from books
+            const booksWithRating = sellerBooks.filter(book => book.rating && book.rating.average);
+            const averageRating = booksWithRating.length > 0 
+                ? booksWithRating.reduce((sum, book) => sum + book.rating.average, 0) / booksWithRating.length 
+                : 0;
+            
+            // For now, set total orders to 0 (this would come from orders data)
+            const totalOrders = 0;
+            
+            sellerStats = {
+                totalBooks,
+                totalOrders,
+                totalRevenue,
+                averageRating
+            };
+            
+            updateStatsUI();
         }
 
         // Update profile UI
@@ -976,12 +1007,16 @@
             // Update navigation with seller data immediately
             updateNavigation();
             
-            // Load all data
-            await Promise.all([
-                loadSellerProfile(),
-                loadSellerBooks(),
-                loadSellerStats()
-            ]);
+            // Load all data with error handling
+            try {
+                await Promise.allSettled([
+                    loadSellerProfile(),
+                    loadSellerBooks(),
+                    loadSellerStats()
+                ]);
+            } catch (error) {
+                console.error('Error during dashboard initialization:', error);
+            }
 
             // Update UI with loaded data
             updateRecentActivity();

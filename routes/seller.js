@@ -399,5 +399,45 @@ router.get('/dashboard', asyncHandler(async (req, res) => {
   });
 }));
 
+// @desc    Get seller stats (alias for dashboard)
+// @route   GET /api/seller/stats
+// @access  Private
+router.get('/stats', asyncHandler(async (req, res) => {
+  const [
+    totalBooks,
+    totalOrders,
+    totalSales
+  ] = await Promise.all([
+    Book.countDocuments({ sellerId: req.user.sellerId }),
+    Order.countDocuments({ 
+      bookId: { $in: await Book.find({ sellerId: req.user.sellerId }).select('_id') }
+    }),
+    Order.aggregate([
+      {
+        $match: {
+          bookId: { $in: await Book.find({ sellerId: req.user.sellerId }).select('_id') },
+          paymentStatus: 'paid'
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: '$totalAmount' }
+        }
+      }
+    ])
+  ]);
+
+  res.json({
+    success: true,
+    data: {
+      totalBooks,
+      totalOrders,
+      totalRevenue: totalSales[0]?.total || 0,
+      averageRating: 0 // This would be calculated from reviews
+    }
+  });
+}));
+
 module.exports = router; 
  
