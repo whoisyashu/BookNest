@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard - BookNest</title>
+    <link rel="stylesheet" href="assets/css/globals.css" />
+    <link rel="stylesheet" href="assets/css/styleguide.css" />
+</head>
+<body>
+    <header>
+        <h1>Welcome to Seller Dashboard</h1>
+        <button onclick="logout()">Logout</button>
+    </header>
+    
+    <main>
+        <div id="userInfo"></div>
+        <!-- Add your seller dashboard content here -->
+    </main>
+
+    <script src="assets/js/api.js"></script>
+    <script>
+        // Check if user is logged in
+        if (!utils.isLoggedIn() || utils.getUserType() !== 'seller') {
+            window.location.href = 'signin.html';
+        }
+
+        // Display user info
+        const userData = utils.getUserData();
+        document.getElementById('userInfo').innerHTML = `
+            <h2>Welcome, ${userData.seller.name}!</h2>
+            <p>Email: ${userData.seller.email}</p>
+            <p>Tier: ${userData.seller.tierId ? userData.seller.tierId.name : 'N/A'}</p>
+        `;
+
+        function logout() {
+            utils.clearUserData();
+            window.location.href = 'signin.html';
+        }
+    </script>
+</body>
+</html>

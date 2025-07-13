@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="assets/css/globals.css" />
+    <link rel="stylesheet" href="assets/css/payment.css" />
+    <title>Payment Methods</title>
+  </head>
+  <body>
+    <main class="payment-method">
+      <div class="payment-container">
+        <header>
+          <button class="back-button" aria-label="Go back" onclick="goBackToCart()">
+            <span class="visually-hidden">Back</span>
+          </button>
+          <h1>Payment Methods</h1>
+        </header>
+        <section class="payment-options">
+          <div class="payment-option">
+            <button class="payment-option-header">
+              <span>UPI</span>
+              <span class="arrow-icon" aria-hidden="true"></span>
+            </button>
+            <hr class="divider" />
+            <div class="payment-option-content">
+              <label class="upi-option">
+                <input type="radio" name="upi-method" checked />
+                <span class="upi-info">
+                  <img src="assets/images/phonepe.png" alt="PhonePe logo" class="upi-logo" />
+                  <span>PhonePe - 9876543210</span>
+                </span>
+              </label>
+              <label class="upi-option">
+                <input type="radio" name="upi-method" />
+                <span class="upi-info">
+                  <img src="assets/images/gpay.png" alt="Google Pay logo" class="upi-logo" />
+                  <span>Google Pay - 9876543210</span>
+                </span>
+              </label>
+              <label class="upi-option">
+                <input type="radio" name="upi-method" />
+                <span class="upi-info">
+                  <img src="assets/images/paytm.png" alt="Paytm logo" class="upi-logo" />
+                  <span>Paytm - 9876543210</span>
+                </span>
+              </label>
+              <button class="add-upi">
+                <span class="add-icon" aria-hidden="true"></span>
+                Add New UPI ID
+              </button>
+            </div>
+          </div>
+          
+          <div class="payment-option">
+            <button class="payment-option-header">
+              <span>Debit Cards</span>
+              <span class="arrow-icon" aria-hidden="true"></span>
+            </button>
+            <hr class="divider" />
+            <div class="payment-option-content">
+              <label class="card-option">
+                <input type="radio" name="debit-card" checked />
+                <span class="card-info">
+                  <img src="assets/images/visa-card.png" alt="HDFC Bank logo" class="card-logo" />
+                  <span>HDFC Bank xxxx1234</span>
+                </span>
+              </label>
+              <label class="card-option">
+                <input type="radio" name="debit-card" />
+                <span class="card-info">
+                  <img src="assets/images/visa-card.png" alt="SBI Bank logo" class="card-logo" />
+                  <span>SBI Bank xxxx5678</span>
+                </span>
+              </label>
+              <label class="card-option">
+                <input type="radio" name="debit-card" />
+                <span class="card-info">
+                  <img src="assets/images/visa-card.png" alt="ICICI Bank logo" class="card-logo" />
+                  <span>ICICI Bank xxxx9012</span>
+                </span>
+              </label>
+              <button class="add-card">
+                <span class="add-icon" aria-hidden="true"></span>
+                Add New Debit Card
+              </button>
+            </div>
+          </div>
+          
+          <div class="payment-option expanded">
+            <button class="payment-option-header">
+              <span>Credit Cards</span>
+              <span class="arrow-icon" aria-hidden="true"></span>
+            </button>
+            <hr class="divider" />
+            <div class="payment-option-content">
+              <label class="card-option">
+                <input type="radio" name="credit-card" checked />
+                <span class="card-info">
+                  <img src="assets/images/master-card.png" alt="Axis Bank logo" class="card-logo" />
+                  <span>Axis Bank xxxx68</span>
+                </span>
+              </label>
+              <label class="card-option">
+                <input type="radio" name="credit-card" />
+                <span class="card-info">
+                  <img src="assets/images/master-card.png" alt="VYX Bank logo" class="card-logo" />
+                  <span>VYX Bank xxxx54</span>
+                </span>
+              </label>
+              <button class="add-card">
+                <span class="add-icon" aria-hidden="true"></span>
+                Add New Credit Card
+              </button>
+            </div>
+          </div>
+        </section>
+        <button class="add-method">
+          <span class="add-icon" aria-hidden="true"></span>
+          Add new method
+        </button>
+        <button class="pay-now">Pay Now</button>
+      </div>
+    </main>
+
+    <script>
+      // Payment option expansion functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        
+        paymentOptions.forEach(option => {
+          const header = option.querySelector('.payment-option-header');
+          const content = option.querySelector('.payment-option-content');
+          const arrow = option.querySelector('.arrow-icon');
+          
+          if (header && content) {
+            header.addEventListener('click', function() {
+              const isExpanded = option.classList.contains('expanded');
+              
+              // Close all other expanded options
+              paymentOptions.forEach(otherOption => {
+                if (otherOption !== option) {
+                  otherOption.classList.remove('expanded');
+                  const otherContent = otherOption.querySelector('.payment-option-content');
+                  if (otherContent) {
+                    otherContent.style.display = 'none';
+                  }
+                }
+              });
+              
+              // Toggle current option
+              if (isExpanded) {
+                option.classList.remove('expanded');
+                content.style.display = 'none';
+                const divider = option.querySelector('.divider');
+                if (divider) divider.style.display = 'none';
+              } else {
+                option.classList.add('expanded');
+                content.style.display = 'flex';
+                const divider = option.querySelector('.divider');
+                if (divider) divider.style.display = 'block';
+              }
+            });
+          }
+        });
+        
+        // Initialize expanded state for credit cards (default expanded)
+        const creditCardsOption = document.querySelector('.payment-option.expanded');
+        if (creditCardsOption) {
+          const content = creditCardsOption.querySelector('.payment-option-content');
+          const divider = creditCardsOption.querySelector('.divider');
+          if (content) {
+            content.style.display = 'flex';
+          }
+          if (divider) {
+            divider.style.display = 'block';
+          }
+        } else {
+          // If no default expanded, hide all content initially
+          const allContent = document.querySelectorAll('.payment-option-content');
+          const allDividers = document.querySelectorAll('.divider');
+          allContent.forEach(content => {
+            content.style.display = 'none';
+          });
+          allDividers.forEach(divider => {
+            divider.style.display = 'none';
+          });
+        }
+        
+        // Add click handlers for "Add New" buttons
+        const addButtons = document.querySelectorAll('.add-card, .add-upi, .add-method');
+        addButtons.forEach(button => {
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const buttonText = this.textContent.trim();
+            console.log(`Clicked: ${buttonText}`);
+            // Add your logic here for adding new payment methods
+            alert(`Add new ${buttonText.toLowerCase()} functionality would be implemented here.`);
+          });
+        });
+        
+        // Add click handler for Pay Now button
+        const payNowButton = document.querySelector('.pay-now');
+        payNowButton.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          // Check if any payment method is selected
+          const selectedUPI = document.querySelector('input[name="upi-method"]:checked');
+          const selectedDebit = document.querySelector('input[name="debit-card"]:checked');
+          const selectedCredit = document.querySelector('input[name="credit-card"]:checked');
+          
+          if (!selectedUPI && !selectedDebit && !selectedCredit) {
+            alert('Please select a payment method before proceeding.');
+            return;
+          }
+          
+          console.log('Payment processing...');
+          alert('Payment processing would be implemented here.');
+        });
+      });
+    </script>
+    <script>
+      function goBackToCart() {
+        window.location.href = 'cart.html';
+      }
+    </script>
+    <script src="assets/js/test.js"></script>
+  </body>
+</html> 

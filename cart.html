@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="assets/css/globals.css" />
+    <link rel="stylesheet" href="assets/css/cart.css" />
+    <title>My Cart</title>
+  </head>
+  <body>
+    <main class="my-cart">
+      <div class="cart-container">
+        <header>
+            <button class="back-button" aria-label="Go back" onclick="goBackToHome()">
+                <span class="visually-hidden">Back</span>
+            </button>
+            <h1>My Cart</h1>
+        </header>
+        <section class="cart-item">
+          <img src="assets/images/book.webp" alt="Book 1 cover" class="item-image" />
+          <div class="item-details">
+            <h2>Book 1</h2>
+            <p class="item-price">₹681</p>
+          </div>
+          <div class="item-quantity">
+            <button class="quantity-btn minus-btn" aria-label="Decrease quantity">-</button>
+            <span class="quantity-display">1</span>
+            <button class="quantity-btn plus-btn" aria-label="Increase quantity">+</button>
+          </div>
+          <button class="remove-item" aria-label="Remove item">
+            <span class="visually-hidden">Remove</span>
+          </button>
+        </section>
+        <section class="offers">
+          <h2>Offers</h2>
+          <div class="offer-input">
+            <label for="offer-code" class="visually-hidden">Enter offer code</label>
+            <input type="text" id="offer-code" placeholder="Add code" />
+          </div>
+        </section>
+        <section class="order-summary">
+          <h2>Order Summary</h2>
+          <dl>
+            <div class="summary-row">
+              <dt>Order</dt>
+              <dd>₹681</dd>
+            </div>
+            <div class="summary-row">
+              <dt>Delivery</dt>
+              <dd>₹60</dd>
+            </div>
+            <div class="summary-row total">
+              <dt>Total</dt>
+              <dd>₹741</dd>
+            </div>
+          </dl>
+        </section>
+        <section class="address">
+          <h2>Address</h2>
+          <div class="address-select address-dropdown-container">
+            <button class="address-dropdown-selected" aria-label="Select address" onclick="toggleAddressDropdown(event)">
+              <span id="selected-address">mathura</span>
+              <span class="dropdown-arrow">▼</span>
+            </button>
+            <ul class="address-dropdown-list" id="address-dropdown-list" style="display: none;">
+              <li onclick="selectAddress('mathura')">mathura</li>
+              <li onclick="selectAddress('delhi')">delhi</li>
+              <li onclick="selectAddress('agra')">agra</li>
+            </ul>
+          </div>
+        </section>
+        <button class="checkout-button" onclick="proceedToPayment()">Check Out</button>
+      </div>
+    </main>
+
+    <script>
+      // Quantity adjustment functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const minusBtn = document.querySelector('.minus-btn');
+        const plusBtn = document.querySelector('.plus-btn');
+        const quantityDisplay = document.querySelector('.quantity-display');
+        const itemPrice = document.querySelector('.item-price');
+        const orderAmount = document.querySelector('.summary-row dd');
+        const totalAmount = document.querySelector('.total dd');
+        
+        let quantity = 1;
+        const basePrice = 681;
+        const deliveryCharge = 60;
+        
+        function updateQuantity() {
+          quantityDisplay.textContent = quantity;
+          
+          // Update item price display
+          const totalItemPrice = basePrice * quantity;
+          itemPrice.textContent = `₹${totalItemPrice}`;
+          
+          // Update order summary
+          orderAmount.textContent = `₹${totalItemPrice}`;
+          totalAmount.textContent = `₹${totalItemPrice + deliveryCharge}`;
+          
+          // Disable minus button if quantity is 1
+          minusBtn.disabled = quantity <= 1;
+        }
+        
+        minusBtn.addEventListener('click', function() {
+          if (quantity > 1) {
+            quantity--;
+            updateQuantity();
+          }
+        });
+        
+        plusBtn.addEventListener('click', function() {
+          quantity++;
+          updateQuantity();
+        });
+        
+        // Initialize
+        updateQuantity();
+      });
+
+      // Address dropdown functionality
+      function toggleAddressDropdown(event) {
+        event.preventDefault();
+        const dropdown = document.getElementById('address-dropdown-list');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        document.addEventListener('click', closeDropdownOnClickOutside);
+      }
+      function selectAddress(address) {
+        document.getElementById('selected-address').textContent = address;
+        document.getElementById('address-dropdown-list').style.display = 'none';
+      }
+      function closeDropdownOnClickOutside(e) {
+        const dropdown = document.getElementById('address-dropdown-list');
+        const button = document.querySelector('.address-dropdown-selected');
+        if (!dropdown.contains(e.target) && !button.contains(e.target)) {
+          dropdown.style.display = 'none';
+          document.removeEventListener('click', closeDropdownOnClickOutside);
+        }
+      }
+    </script>
+    <script>
+      function proceedToPayment() {
+        // Save cart data for payment page
+        const cartData = {
+          items: window.cart ? window.cart.items : [],
+          total: window.cart ? window.cart.getGrandTotal() : 741,
+          address: document.getElementById('selected-address').textContent // Get from address section
+        };
+        localStorage.setItem('paymentCartData', JSON.stringify(cartData));
+        
+        // Redirect to payment page
+        window.location.href = 'payment.html';
+      }
+      function goBackToHome(){
+        window.location.href = 'index.html';
+      }
+      
+    </script>
+    <script src="assets/js/test.js"></script>
+  </body>
+</html>

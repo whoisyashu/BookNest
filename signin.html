@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="assets/css/globals.css" />
+    <link rel="stylesheet" href="assets/css/styleguide.css" />
+    <link rel="stylesheet" href="assets/css/signin.css" />
+    <title>Sign In</title>
+    <script src="assets/js/api.js"></script>
+  </head>
+  <body>
+    <main class="sign-in-screen">
+      <div class="sign-in-container">
+        <header>
+          <div class="elipce-group">
+            <div class="ellipse"></div>
+          </div>
+          
+        </header>
+        <h1 class="sign-in-title">Sign In</h1>
+        <form class="sign-in-form">
+          <p class="form-instruction">Enter your email and password</p>
+          <div class="form-group">
+            <label class="form-label">Signing in as *</label>
+            <div class="user-type-selection">
+              <label class="radio-option">
+                <input type="radio" name="userType" value="customer" required />
+                <span class="radio-custom"></span>
+                <span class="radio-label">Customer</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="userType" value="seller" required />
+                <span class="radio-custom"></span>
+                <span class="radio-label">Seller</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" class="form-input" required />
+            <a href="#" class="forgot-password">Forgot password?</a>
+          </div>
+          <button type="submit" class="login-button">
+            <span>LOGIN</span>
+          </button>
+        </form>
+        <div class="sign-up-prompt">
+          <p>Don't have an account? <a href="signup.html" class="sign-up-link">Sign up</a></p>
+        </div>
+        <div class="social-sign-in">
+          <p class="sign-in-with">Sign In with</p>
+          <div class="social-icons">
+            <a href="#" aria-label="Sign in with Facebook">
+              <img class="logos-facebook" src="assets/images/logos-facebook.png" alt="Facebook logo" />
+            </a>
+            <a href="#" aria-label="Sign in with LinkedIn">
+              <img class="logos-linkedin-icon" src="assets/images/logos-linkedin.png" alt="LinkedIn logo" />
+            </a>
+            <a href="#" aria-label="Sign in with Google">
+              <img class="grommet-icons-google" src="assets/images/logos-google.png" alt="Google logo" />
+            </a>
+
+          </div>
+        </div>
+        
+      </div>
+    </main>
+    <script>
+      // Form submission
+      document.querySelector('.sign-in-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitButton = document.querySelector('.login-button');
+        const originalButtonText = submitButton.innerHTML;
+        
+        try {
+          // Get form data
+          const userType = document.querySelector('input[name="userType"]:checked');
+          const email = document.getElementById('email').value.trim();
+          const password = document.getElementById('password').value;
+          
+          // Validation
+          if (!userType) {
+            utils.showError('Please select whether you are signing in as a Customer or Seller');
+            return;
+          }
+          
+          if (!email) {
+            utils.showError('Please enter your email address');
+            return;
+          }
+          
+          if (!password) {
+            utils.showError('Please enter your password');
+            return;
+          }
+          
+          // Show loading state
+          utils.showLoading(submitButton);
+          
+          // Prepare credentials
+          const credentials = {
+            email: email,
+            password: password
+          };
+          
+          let response;
+          
+          // Login based on user type
+          if (userType.value === 'seller') {
+            response = await api.loginSeller(credentials);
+          } else {
+            response = await api.loginBuyer(credentials);
+          }
+          
+          // Save user data
+          utils.saveUserData(response.data, userType.value);
+          
+          // Show success message
+          utils.showSuccess('Login successful! Redirecting to dashboard...');
+          
+          // Redirect to appropriate dashboard
+          setTimeout(() => {
+            utils.redirectToDashboard(userType.value);
+          }, 1500);
+          
+        } catch (error) {
+          utils.showError(error.message);
+        } finally {
+          utils.hideLoading(submitButton, originalButtonText);
+        }
+      });
+    </script>
+  </body>
+</html>

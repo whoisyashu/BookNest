@@ -1,0 +1,332 @@
+/* Payment Page Styles */
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #ffffff;
+}
+
+.payment-method {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.payment-container {
+  width: 100%;
+  max-width: 375px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.back-button {
+  width: 30px;
+  height: 30px;
+  background-color: #9980ac;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+}
+
+.back-button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: translate(-25%, -50%) rotate(45deg);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+h1 {
+  margin-left: 20px;
+  font-size: 20px;
+  color: #a44fe4;
+  font-weight: 500;
+}
+
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.payment-option {
+  margin-bottom: 10px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.payment-option-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  color: #9980ac;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.payment-option-header:hover {
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.arrow-icon {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #9980ac;
+  border-bottom: 2px solid #9980ac;
+  transform: rotate(-45deg);
+  transition: transform 0.3s ease;
+}
+
+.divider {
+  border: none;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 0;
+  display: none;
+}
+
+.payment-option.expanded .arrow-icon {
+  transform: rotate(45deg);
+}
+
+.payment-option-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  background-color: transparent;
+  display: none; /* Hidden by default */
+}
+
+.card-option,
+.upi-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.card-option:hover,
+.upi-option:hover {
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.card-option input[type="radio"] {
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border: 2px solid #d9d9d9;
+  border-radius: 50%;
+  outline: none;
+  margin: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.card-option input[type="radio"]:checked {
+  background-color: #393939;
+  box-shadow: inset 0 0 0 3px #d9d9d9;
+}
+
+.card-info,
+.upi-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.card-logo,
+.upi-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.add-card,
+.add-upi,
+.add-method {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  font-weight: 600;
+  color: #9980ac;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.add-card:hover,
+.add-upi:hover,
+.add-method:hover {
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+  background-color: #f8f8f8;
+}
+
+.add-icon {
+  width: 25px;
+  height: 25px;
+  background-color: rgba(153, 128, 172, 0.5);
+  border-radius: 50%;
+  position: relative;
+}
+
+.add-icon::before,
+.add-icon::after {
+  content: "";
+  position: absolute;
+  background-color: #ffffff;
+}
+
+.add-icon::before {
+  width: 13px;
+  height: 2px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.add-icon::after {
+  width: 2px;
+  height: 13px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pay-now {
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+  background-color: #9980ac;
+  border: none;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.pay-now:hover {
+  background-color: #8a70a0;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Focus states for accessibility */
+.back-button:focus,
+.payment-option-header:focus,
+.add-card:focus,
+.add-upi:focus,
+.add-method:focus,
+.pay-now:focus,
+.card-option input[type="radio"]:focus,
+.upi-option input[type="radio"]:focus {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 480px) {
+  .payment-container {
+    padding: 15px;
+  }
+  
+  .payment-option,
+  .payment-option-header {
+    padding: 12px 15px;
+    font-size: 14px;
+  }
+  
+  .payment-option-content {
+    padding: 12px;
+  }
+  
+  .card-option {
+    padding: 8px;
+  }
+  
+  .card-logo {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .add-card,
+  .add-method {
+    padding: 12px;
+    font-size: 13px;
+  }
+  
+  .pay-now {
+    padding: 12px;
+    font-size: 16px;
+  }
+}
+
+/* Animation for smooth transitions */
+.payment-option-content {
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Custom radio button styling */
+.card-option input[type="radio"]:focus {
+  border-color: #9980ac;
+}
+
+/* Hover effects for better UX */
+.payment-option-header:hover {
+  background-color: #f8f8f8;
+}
+
+.card-option:hover,
+.upi-option:hover {
+  background-color: #f8f8f8;
+} 
