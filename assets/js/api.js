@@ -97,6 +97,115 @@ const api = {
     } catch (error) {
       throw error;
     }
+  },
+
+  // Get seller profile
+  async getSellerProfile() {
+    try {
+      const response = await fetch(`${API_BASE_URL}/seller/profile`, {
+        headers: {
+          'Authorization': `Bearer ${utils.getToken()}`
+        }
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to load profile');
+      }
+      
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Update seller profile
+  async updateSellerProfile(profileData) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/seller/profile`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${utils.getToken()}`
+        },
+        body: JSON.stringify(profileData)
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to update profile');
+      }
+      
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Get seller books
+  async getSellerBooks() {
+    try {
+      const response = await fetch(`${API_BASE_URL}/books/seller`, {
+        headers: {
+          'Authorization': `Bearer ${utils.getToken()}`
+        }
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to load books');
+      }
+      
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Get seller stats
+  async getSellerStats() {
+    try {
+      const response = await fetch(`${API_BASE_URL}/seller/stats`, {
+        headers: {
+          'Authorization': `Bearer ${utils.getToken()}`
+        }
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to load stats');
+      }
+      
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Delete book
+  async deleteBook(bookId) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/books/${bookId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${utils.getToken()}`
+        }
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to delete book');
+      }
+      
+      return data;
+    } catch (error) {
+      throw error;
+    }
   }
 };
 

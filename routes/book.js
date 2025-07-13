@@ -1,6 +1,6 @@
 const express = require('express');
 const asyncHandler = require('../middleware/asyncHandler');
-const { optionalAuth } = require('../middleware/auth');
+const { optionalAuth, protect, authorize } = require('../middleware/auth');
 const { BadRequestError, NotFoundError } = require('../utils/errors');
 
 const Book = require('../models/Book');
@@ -252,6 +252,91 @@ router.get('/seller/:sellerId', asyncHandler(async (req, res) => {
       total,
       pages: Math.ceil(total / limit)
     }
+  });
+}));
+
+// @desc    Get current seller's books
+// @route   GET /api/books/seller
+// @access  Private (Seller only)
+router.get('/seller', protect, authorize('seller'), asyncHandler(async (req, res) => {
+
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = parseInt(req.query.limit, 10) || 10;
+  const startIndex = (page - 1) * limit;
+
+  const books = await Book.find({ 
+    sellerId: req.user.id
+  })
+    .populate('sellerId', 'name')
+    .sort({ createdAt: -1 })
+    .skip(startIndex)
+    .limit(limit);
+
+  const total = await Book.countDocuments({ 
+    sellerId: req.user.id
+  });
+
+  res.json({
+    success: true,
+    data: books,
+    pagination: {
+      page,
+      limit,
+      total,
+      pages: Math.ceil(total / limit)
+    }
+  });
+}));
+
+// @desc    Create a new book
+// @route   POST /api/books
+// @access  Private (Seller only)
+router.post('/', protect, authorize('seller'), asyncHandler(async (req, res) => {
+  const {
+    title,
+    author,
+    ISBN,
+    price,
+    quantity,
+    description,
+    genre,
+    language,
+    condition,
+    format,
+    publicationYear,
+    publisher,
+    pages,
+    tags
+  } = req.body;
+
+  // Check if ISBN already exists
+  const existingBook = await Book.findOne({ ISBN });
+  if (existingBook) {
+    throw new BadRequestError('A book with this ISBN already exists');
+  }
+
+  // Create book
+  const book = await Book.create({
+    title,
+    author,
+    ISBN,
+    price,
+    quantity,
+    description,
+    genre,
+    language,
+    condition,
+    format,
+    publicationYear,
+    publisher,
+    pages,
+    tags,
+    sellerId: req.user.id
+  });
+
+  res.status(201).json({
+    success: true,
+    data: book
   });
 }));
 
