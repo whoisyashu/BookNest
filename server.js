@@ -34,12 +34,16 @@ const limiter = rateLimit({
 app.use('/api/', limiter);
 
 // CORS configuration
-app.use(cors({
+const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
-    ? process.env.FRONTEND_URL || ['https://your-frontend-domain.com'] 
+    ? process.env.FRONTEND_URL || ['http://localhost:8000', 'http://localhost:3000', 'http://localhost:3001'] 
     : ['http://localhost:8000', 'http://localhost:3000', 'http://localhost:3001'],
   credentials: true
-}));
+};
+
+console.log('CORS configuration:', corsOptions);
+
+app.use(cors(corsOptions));
 
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
