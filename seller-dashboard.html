@@ -221,8 +221,8 @@
             <div class="sidebar-header">
                 <h3>Seller Panel</h3>
                 <div class="seller-info" id="sidebar-seller-info">
-                    <p class="seller-name">Loading...</p>
-                    <p class="seller-tier">Loading tier...</p>
+                    <p class="seller-name">John Doe</p>
+                    <p class="seller-tier">Gold Tier</p>
                 </div>
             </div>
             <nav class="sidebar-nav">
@@ -249,7 +249,7 @@
             <section id="overview" class="dashboard-section active">
                 <div class="section-header">
                     <h1>Dashboard Overview</h1>
-                    <p id="welcome-message">Welcome back! Here's what's happening with your store.</p>
+                    <p id="welcome-message">Welcome back, John Doe! Here's what's happening with your store.</p>
                 </div>
 
                 <!-- Quick Stats -->
@@ -329,6 +329,36 @@
                                 <span class="activity-time">Just now</span>
                             </div>
                         </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Books Available</h4>
+                                <p>You have 24 books in your inventory</p>
+                                <span class="activity-time">Current</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Orders Received</h4>
+                                <p>Total of 156 orders received</p>
+                                <span class="activity-time">Current</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Revenue Generated</h4>
+                                <p>₹45,230 total revenue</p>
+                                <span class="activity-time">Current</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -347,21 +377,21 @@
                         <div class="profile-form">
                             <div class="form-group">
                                 <label for="seller-name">Full Name</label>
-                                <input type="text" id="seller-name" value="John Doe" placeholder="Enter your full name">
+                                <input type="text" id="seller-name" value="John Doe" placeholder="Enter your full name" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="seller-email">Email Address</label>
-                                <input type="email" id="seller-email" value="john.doe@example.com" placeholder="Enter your email">
+                                <input type="email" id="seller-email" value="john.doe@example.com" placeholder="Enter your email" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="seller-phone">Phone Number</label>
-                                <input type="tel" id="seller-phone" value="+91 98765 43210" placeholder="Enter your phone number">
+                                <input type="tel" id="seller-phone" value="+91 98765 43210" placeholder="Enter your phone number" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="seller-bio">Bio</label>
-                                <textarea id="seller-bio" rows="4" placeholder="Tell us about yourself and your bookstore">Experienced bookseller with over 10 years in the industry. Specializing in classic literature and contemporary fiction.</textarea>
+                                <textarea id="seller-bio" rows="4" placeholder="Tell us about yourself and your bookstore" readonly>Experienced bookseller with over 10 years in the industry. Specializing in classic literature and contemporary fiction.</textarea>
                             </div>
-                            <button class="btn btn-primary">Update Profile</button>
+                            <button class="btn btn-primary" disabled>Update Profile</button>
                         </div>
                     </div>
 
@@ -385,13 +415,13 @@
                             <div class="upload-grid">
                                 <div class="upload-item">
                                     <label for="business-license">Business License</label>
-                                    <input type="file" id="business-license" accept=".pdf,.jpg,.jpeg,.png">
-                                    <button class="upload-btn">Choose File</button>
+                                    <input type="file" id="business-license" accept=".pdf,.jpg,.jpeg,.png" disabled>
+                                    <button class="upload-btn" disabled>Choose File</button>
                                 </div>
                                 <div class="upload-item">
                                     <label for="bank-statement">Bank Statement</label>
-                                    <input type="file" id="bank-statement" accept=".pdf,.jpg,.jpeg,.png">
-                                    <button class="upload-btn">Choose File</button>
+                                    <input type="file" id="bank-statement" accept=".pdf,.jpg,.jpeg,.png" disabled>
+                                    <button class="upload-btn" disabled>Choose File</button>
                                 </div>
                             </div>
                         </div>
@@ -409,135 +439,17 @@
                 <div class="books-content">
                     <!-- Book Actions -->
                     <div class="books-actions">
-                        <button class="btn btn-primary" onclick="showAddBookForm()">
+                        <button class="btn btn-primary" disabled>
                             <i class="fas fa-plus"></i> Add New Book
                         </button>
                         <div class="books-filter">
-                            <select id="book-filter">
+                            <select id="book-filter" disabled>
                                 <option value="all">All Books</option>
                                 <option value="active">Active</option>
                                 <option value="inactive">Inactive</option>
                                 <option value="out-of-stock">Out of Stock</option>
                             </select>
                         </div>
-                    </div>
-
-                    <!-- Add Book Form (Hidden by default) -->
-                    <div id="add-book-form" class="add-book-form" style="display: none;">
-                        <div class="form-header">
-                            <h2>Add New Book</h2>
-                            <button class="close-btn" onclick="hideAddBookForm()">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                        
-                        <form id="book-form" class="book-form">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="book-title">Book Title *</label>
-                                    <input type="text" id="book-title" name="title" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="book-author">Author *</label>
-                                    <input type="text" id="book-author" name="author" required>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="book-isbn">ISBN *</label>
-                                    <div class="isbn-input-container">
-                                        <input type="text" id="book-isbn" name="ISBN" placeholder="Enter ISBN (10 or 13 digits)" required>
-                                        <div id="isbn-loading" class="isbn-loading" style="display: none;">
-                                            <i class="fas fa-spinner fa-spin"></i>
-                                        </div>
-                                    </div>
-                                    <small class="form-help">Enter ISBN to auto-fill book details</small>
-                                </div>
-                                <div class="form-group">
-                                    <label for="book-price">Price (₹) *</label>
-                                    <input type="number" id="book-price" name="price" min="0" step="0.01" required>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="book-quantity">Quantity *</label>
-                                    <input type="number" id="book-quantity" name="quantity" min="0" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="book-genre">Genre</label>
-                                    <input type="text" id="book-genre" name="genre" placeholder="e.g., Fiction, Science, History">
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="book-format">Format</label>
-                                    <select id="book-format" name="format">
-                                        <option value="paperback">Paperback</option>
-                                        <option value="hardcover">Hardcover</option>
-                                        <option value="ebook">E-Book</option>
-                                        <option value="audiobook">Audiobook</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="book-condition">Condition</label>
-                                    <select id="book-condition" name="condition">
-                                        <option value="new">New</option>
-                                        <option value="like_new">Like New</option>
-                                        <option value="good" selected>Good</option>
-                                        <option value="fair">Fair</option>
-                                        <option value="poor">Poor</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="book-language">Language</label>
-                                    <input type="text" id="book-language" name="language" value="English">
-                                </div>
-                                <div class="form-group">
-                                    <label for="book-pages">Number of Pages</label>
-                                    <input type="number" id="book-pages" name="pages" min="1">
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="book-publisher">Publisher</label>
-                                    <input type="text" id="book-publisher" name="publisher">
-                                </div>
-                                <div class="form-group">
-                                    <label for="book-publication-year">Publication Year</label>
-                                    <input type="number" id="book-publication-year" name="publicationYear" min="1800" max="2024">
-                                </div>
-                            </div>
-
-                            <div class="form-group full-width">
-                                <label for="book-description">Description</label>
-                                <textarea id="book-description" name="description" rows="4" placeholder="Enter a detailed description of the book..."></textarea>
-                            </div>
-
-                            <div class="form-group full-width">
-                                <label for="book-tags">Tags (comma separated)</label>
-                                <input type="text" id="book-tags" name="tags" placeholder="e.g., bestseller, classic, fiction">
-                            </div>
-
-                            <div class="form-group full-width">
-                                <label for="book-images">Book Images</label>
-                                <input type="file" id="book-images" name="images" multiple accept="image/*">
-                                <div id="image-preview" class="image-preview"></div>
-                            </div>
-
-                            <div class="form-actions">
-                                <button type="button" class="btn btn-secondary" onclick="hideAddBookForm()">Cancel</button>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-plus"></i> Add Book
-                                </button>
-                            </div>
-                        </form>
                     </div>
 
                     <!-- Books Table -->
@@ -555,7 +467,51 @@
                                 </tr>
                             </thead>
                             <tbody id="books-table-body">
-                                <!-- Books will be loaded dynamically -->
+                                <tr>
+                                    <td><img src="assets/images/book.webp" alt="Book Cover" class="book-cover"></td>
+                                    <td>The Great Gatsby</td>
+                                    <td>F. Scott Fitzgerald</td>
+                                    <td>₹499</td>
+                                    <td>12</td>
+                                    <td><span class="status active">Active</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn-small" disabled><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn-small" disabled><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn-small delete" disabled><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="assets/images/book.webp" alt="Book Cover" class="book-cover"></td>
+                                    <td>To Kill a Mockingbird</td>
+                                    <td>Harper Lee</td>
+                                    <td>₹399</td>
+                                    <td>8</td>
+                                    <td><span class="status active">Active</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn-small" disabled><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn-small" disabled><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn-small delete" disabled><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="assets/images/book.webp" alt="Book Cover" class="book-cover"></td>
+                                    <td>1984</td>
+                                    <td>George Orwell</td>
+                                    <td>₹299</td>
+                                    <td>0</td>
+                                    <td><span class="status inactive">Out of Stock</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn-small" disabled><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn-small" disabled><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn-small delete" disabled><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -590,750 +546,6 @@
         </div>
     </main>
 
-    <script src="assets/js/api.js"></script>
-    <script>
-        // Check authentication
-        if (!utils.isLoggedIn() || utils.getUserType() !== 'seller') {
-            window.location.href = 'signin.html';
-        }
-
-        // Get seller data
-        const sellerData = utils.getUserData();
-        let sellerProfile = null;
-        let sellerBooks = [];
-        let sellerStats = {
-            totalBooks: 0,
-            totalOrders: 0,
-            totalRevenue: 0,
-            averageRating: 0
-        };
-
-        // Display seller info in navigation
-        function updateNavigation() {
-            if (sellerData && sellerData.seller) {
-                const seller = sellerData.seller;
-                
-                // Update welcome message
-                const welcomeMessage = document.getElementById('welcome-message');
-                if (welcomeMessage) {
-                    welcomeMessage.textContent = `Welcome back, ${seller.name}! Here's what's happening with your store.`;
-                }
-
-                // Update profile photos if available
-                const profilePhotos = document.querySelectorAll('#nav-profile-photo, #mobile-profile-photo');
-                profilePhotos.forEach(photo => {
-                    if (seller.profileImage) {
-                        photo.src = seller.profileImage;
-                    }
-                });
-
-                // Update sidebar seller info
-                const sidebarInfo = document.getElementById('sidebar-seller-info');
-                if (sidebarInfo) {
-                    const sellerName = sidebarInfo.querySelector('.seller-name');
-                    const sellerTier = sidebarInfo.querySelector('.seller-tier');
-                    
-                    if (sellerName) {
-                        sellerName.textContent = seller.name;
-                    }
-                    
-                    if (sellerTier) {
-                        if (seller.tierId && seller.tierId.name) {
-                            sellerTier.textContent = `${seller.tierId.name} Tier`;
-                        } else {
-                            sellerTier.textContent = 'Basic Tier';
-                        }
-                    }
-                }
-            }
-        }
-
-        // Navigation functionality
-        const navLinks = document.querySelectorAll('.nav-link');
-        const sections = document.querySelectorAll('.dashboard-section');
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // Remove active class from all links and sections
-                navLinks.forEach(l => l.classList.remove('active'));
-                sections.forEach(s => s.classList.remove('active'));
-                
-                // Add active class to clicked link
-                link.classList.add('active');
-                
-                // Show corresponding section
-                const targetSection = link.getAttribute('data-section');
-                document.getElementById(targetSection).classList.add('active');
-            });
-        });
-
-        // Mobile menu functionality
-        const hamburger = document.querySelector('.navbar-hamburger');
-        const mobileMenu = document.querySelector('.navbar-links');
-        const overlay = document.querySelector('.mobile-menu-overlay');
-
-        hamburger.addEventListener('click', () => {
-            mobileMenu.classList.toggle('open');
-            overlay.classList.toggle('active');
-        });
-
-        overlay.addEventListener('click', () => {
-            mobileMenu.classList.remove('open');
-            overlay.classList.remove('active');
-        });
-
-        // Load seller profile
-        async function loadSellerProfile() {
-            try {
-                const data = await api.getSellerProfile();
-                sellerProfile = data.data;
-                updateProfileUI();
-            } catch (error) {
-                console.error('Error loading seller profile:', error);
-                // Use basic data from login
-                sellerProfile = sellerData.seller;
-                updateProfileUI();
-            }
-        }
-
-        // Load seller books
-        async function loadSellerBooks() {
-            try {
-                const data = await api.getSellerBooks();
-                sellerBooks = data.data || [];
-                updateBooksUI();
-                // Calculate stats from books data
-                calculateStatsFromBooks();
-            } catch (error) {
-                console.error('Error loading seller books:', error);
-                sellerBooks = [];
-                updateBooksUI();
-                // Calculate stats from empty books array
-                calculateStatsFromBooks();
-            }
-        }
-
-        // Load seller stats
-        async function loadSellerStats() {
-            try {
-                const data = await api.getSellerStats();
-                sellerStats = data.data || sellerStats;
-                updateStatsUI();
-            } catch (error) {
-                console.error('Error loading seller stats:', error);
-                // Calculate stats from books data as fallback
-                calculateStatsFromBooks();
-            }
-        }
-
-        // Calculate stats from books data
-        function calculateStatsFromBooks() {
-            const totalBooks = sellerBooks.length;
-            const totalRevenue = sellerBooks.reduce((sum, book) => {
-                // Calculate potential revenue (price * quantity)
-                return sum + (book.price * book.quantity);
-            }, 0);
-            
-            // Calculate average rating from books
-            const booksWithRating = sellerBooks.filter(book => book.rating && book.rating.average);
-            const averageRating = booksWithRating.length > 0 
-                ? booksWithRating.reduce((sum, book) => sum + book.rating.average, 0) / booksWithRating.length 
-                : 0;
-            
-            // For now, set total orders to 0 (this would come from orders data)
-            const totalOrders = 0;
-            
-            sellerStats = {
-                totalBooks,
-                totalOrders,
-                totalRevenue,
-                averageRating
-            };
-            
-            updateStatsUI();
-        }
-
-        // Update profile UI
-        function updateProfileUI() {
-            if (sellerProfile) {
-                document.getElementById('seller-name').value = sellerProfile.name || '';
-                document.getElementById('seller-email').value = sellerProfile.email || '';
-                document.getElementById('seller-phone').value = sellerProfile.phone || '';
-                document.getElementById('seller-bio').value = sellerProfile.bio || '';
-                
-                // Update profile image if available
-                const profileImage = document.querySelector('.profile-photo');
-                if (profileImage && sellerProfile.profileImage) {
-                    profileImage.src = sellerProfile.profileImage;
-                }
-            } else if (sellerData && sellerData.seller) {
-                // Fallback to basic seller data
-                const seller = sellerData.seller;
-                document.getElementById('seller-name').value = seller.name || '';
-                document.getElementById('seller-email').value = seller.email || '';
-                document.getElementById('seller-phone').value = seller.phone || '';
-                document.getElementById('seller-bio').value = seller.bio || '';
-            }
-        }
-
-        // Update books UI
-        function updateBooksUI() {
-            const tbody = document.getElementById('books-table-body');
-            if (!tbody) return;
-            
-            tbody.innerHTML = '';
-
-            if (sellerBooks.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" style="text-align: center; padding: 40px;">
-                            <p>No books found. Add your first book to get started!</p>
-                            <button class="btn btn-primary" onclick="showAddBookForm()">
-                                <i class="fas fa-plus"></i> Add New Book
-                            </button>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            sellerBooks.forEach(book => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>
-                        <img src="${book.images && book.images.length > 0 ? book.images[0] : 'assets/images/book.webp'}" alt="Book Cover" class="book-cover">
-                    </td>
-                    <td>${book.title}</td>
-                    <td>${book.author}</td>
-                    <td>₹${book.price}</td>
-                    <td>${book.quantity}</td>
-                    <td><span class="status ${book.quantity > 0 ? 'active' : 'inactive'}">${book.quantity > 0 ? 'Active' : 'Out of Stock'}</span></td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="action-btn-small" onclick="editBook('${book._id}')"><i class="fas fa-edit"></i></button>
-                            <button class="action-btn-small" onclick="viewBook('${book._id}')"><i class="fas fa-eye"></i></button>
-                            <button class="action-btn-small delete" onclick="deleteBook('${book._id}')"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        // Update stats UI
-        function updateStatsUI() {
-            const statCards = document.querySelectorAll('.stat-card');
-            
-            if (statCards.length >= 4) {
-                statCards[0].querySelector('h3').textContent = sellerStats.totalBooks || 0;
-                statCards[1].querySelector('h3').textContent = sellerStats.totalOrders || 0;
-                statCards[2].querySelector('h3').textContent = `₹${(sellerStats.totalRevenue || 0).toLocaleString()}`;
-                statCards[3].querySelector('h3').textContent = (sellerStats.averageRating || 0).toFixed(1);
-            }
-        }
-
-        // Update recent activity
-        function updateRecentActivity() {
-            const activityList = document.getElementById('activity-list');
-            if (!activityList) return;
-
-            // Clear existing activities
-            activityList.innerHTML = '';
-
-            // Add welcome activity for new sellers
-            if (sellerStats.totalBooks === 0) {
-                const welcomeActivity = document.createElement('div');
-                welcomeActivity.className = 'activity-item';
-                welcomeActivity.innerHTML = `
-                    <div class="activity-icon">
-                        <i class="fas fa-info-circle"></i>
-                    </div>
-                    <div class="activity-content">
-                        <h4>Welcome to BookNest!</h4>
-                        <p>Your seller account has been created successfully. Start by adding your first book!</p>
-                        <span class="activity-time">Just now</span>
-                    </div>
-                `;
-                activityList.appendChild(welcomeActivity);
-            } else {
-                // Add sample activities based on seller data
-                const activities = [];
-
-                if (sellerStats.totalBooks > 0) {
-                    activities.push({
-                        icon: 'fas fa-book',
-                        title: 'Books Available',
-                        description: `You have ${sellerStats.totalBooks} books in your inventory`,
-                        time: 'Current'
-                    });
-                }
-
-                if (sellerStats.totalOrders > 0) {
-                    activities.push({
-                        icon: 'fas fa-shopping-cart',
-                        title: 'Orders Received',
-                        description: `Total of ${sellerStats.totalOrders} orders received`,
-                        time: 'Current'
-                    });
-                }
-
-                if (sellerStats.totalRevenue > 0) {
-                    activities.push({
-                        icon: 'fas fa-dollar-sign',
-                        title: 'Revenue Generated',
-                        description: `₹${sellerStats.totalRevenue.toLocaleString()} total revenue`,
-                        time: 'Current'
-                    });
-                }
-
-                // Add activities to the list
-                activities.forEach(activity => {
-                    const activityItem = document.createElement('div');
-                    activityItem.className = 'activity-item';
-                    activityItem.innerHTML = `
-                        <div class="activity-icon">
-                            <i class="${activity.icon}"></i>
-                        </div>
-                        <div class="activity-content">
-                            <h4>${activity.title}</h4>
-                            <p>${activity.description}</p>
-                            <span class="activity-time">${activity.time}</span>
-                        </div>
-                    `;
-                    activityList.appendChild(activityItem);
-                });
-            }
-        }
-
-        // Update verification status
-        function updateVerificationStatus() {
-            const verificationStatus = document.getElementById('verification-status');
-            if (!verificationStatus) return;
-
-            // Clear existing status
-            verificationStatus.innerHTML = '';
-
-            // Check if seller is verified (you can add more verification logic here)
-            const isVerified = sellerProfile && sellerProfile.isVerified;
-            
-            const statusItem = document.createElement('div');
-            statusItem.className = 'status-item';
-            
-            if (isVerified) {
-                statusItem.innerHTML = `
-                    <div class="status-icon verified">
-                        <i class="fas fa-check"></i>
-                    </div>
-                    <div class="status-content">
-                        <h4>Account Verification</h4>
-                        <p>Verified seller account</p>
-                    </div>
-                `;
-            } else {
-                statusItem.innerHTML = `
-                    <div class="status-icon pending">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="status-content">
-                        <h4>Account Verification</h4>
-                        <p>Pending verification - Contact support to verify your account</p>
-                    </div>
-                `;
-            }
-            
-            verificationStatus.appendChild(statusItem);
-        }
-
-        // Update profile
-        async function updateProfile() {
-            const formData = {
-                name: document.getElementById('seller-name').value,
-                phone: document.getElementById('seller-phone').value,
-                bio: document.getElementById('seller-bio').value
-            };
-
-            try {
-                await api.updateSellerProfile(formData);
-                utils.showSuccess('Profile updated successfully!');
-                await loadSellerProfile();
-            } catch (error) {
-                utils.showError(error.message || 'Error updating profile');
-            }
-        }
-
-        // Book management functions
-        function showAddBookForm() {
-            document.getElementById('add-book-form').style.display = 'block';
-            document.getElementById('book-form').reset();
-            document.getElementById('image-preview').innerHTML = '';
-        }
-
-        function hideAddBookForm() {
-            document.getElementById('add-book-form').style.display = 'none';
-        }
-
-        function editBook(bookId) {
-            // Implement edit book functionality
-            alert(`Edit book ${bookId} functionality coming soon!`);
-        }
-
-        function viewBook(bookId) {
-            // Implement view book functionality
-            alert(`View book ${bookId} functionality coming soon!`);
-        }
-
-        async function deleteBook(bookId) {
-            if (confirm('Are you sure you want to delete this book?')) {
-                try {
-                    await api.deleteBook(bookId);
-                    utils.showSuccess('Book deleted successfully!');
-                    await loadSellerBooks();
-                } catch (error) {
-                    utils.showError(error.message || 'Error deleting book');
-                }
-            }
-        }
-
-        // Logout function
-        function logout() {
-            utils.clearUserData();
-            window.location.href = 'signin.html';
-        }
-
-        // Initialize dashboard
-        async function initDashboard() {
-            // Update navigation with seller data immediately
-            updateNavigation();
-            
-            // Load all data with error handling
-            try {
-                await Promise.allSettled([
-                    loadSellerProfile(),
-                    loadSellerBooks(),
-                    loadSellerStats()
-                ]);
-            } catch (error) {
-                console.error('Error during dashboard initialization:', error);
-            }
-
-            // Update UI with loaded data
-            updateRecentActivity();
-            updateVerificationStatus();
-        }
-
-        // Event listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            initDashboard();
-            
-            // Add event listener for update profile button
-            const updateProfileBtn = document.querySelector('.profile-form .btn-primary');
-            if (updateProfileBtn) {
-                updateProfileBtn.addEventListener('click', updateProfile);
-            }
-
-            // Add event listener for book form submission
-            const bookForm = document.getElementById('book-form');
-            if (bookForm) {
-                bookForm.addEventListener('submit', handleBookSubmit);
-            }
-
-            // Add event listener for image preview
-            const imageInput = document.getElementById('book-images');
-            if (imageInput) {
-                imageInput.addEventListener('change', handleImagePreview);
-            }
-
-            // Add event listener for book filter
-            const bookFilter = document.getElementById('book-filter');
-            if (bookFilter) {
-                bookFilter.addEventListener('change', filterBooks);
-            }
-
-            // Add event listener for ISBN input
-            const isbnInput = document.getElementById('book-isbn');
-            if (isbnInput) {
-                let isbnTimeout;
-                isbnInput.addEventListener('input', function() {
-                    clearTimeout(isbnTimeout);
-                    const isbn = this.value.trim();
-                    
-                    // Only fetch if ISBN is 10 or 13 digits
-                    if (isbn.length === 10 || isbn.length === 13) {
-                        isbnTimeout = setTimeout(() => {
-                            fetchBookDetailsByISBN(isbn);
-                        }, 1000); // Wait 1 second after user stops typing
-                    }
-                });
-            }
-        });
-
-        // Handle book form submission
-        async function handleBookSubmit(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(e.target);
-            const bookData = {
-                title: formData.get('title'),
-                author: formData.get('author'),
-                ISBN: formData.get('ISBN'),
-                price: parseFloat(formData.get('price')),
-                quantity: parseInt(formData.get('quantity')),
-                genre: formData.get('genre'),
-                format: formData.get('format'),
-                condition: formData.get('condition'),
-                language: formData.get('language'),
-                pages: formData.get('pages') ? parseInt(formData.get('pages')) : undefined,
-                publisher: formData.get('publisher'),
-                publicationYear: formData.get('publicationYear') ? parseInt(formData.get('publicationYear')) : undefined,
-                description: formData.get('description'),
-                tags: formData.get('tags') ? formData.get('tags').split(',').map(tag => tag.trim()) : []
-            };
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/books`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${utils.getToken()}`
-                    },
-                    body: JSON.stringify(bookData)
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    utils.showSuccess('Book added successfully!');
-                    hideAddBookForm();
-                    await loadSellerBooks(); // Reload books
-                } else {
-                    utils.showError(data.message || 'Failed to add book');
-                }
-            } catch (error) {
-                utils.showError('Error adding book');
-                console.error('Error:', error);
-            }
-        }
-
-        // Handle image preview
-        function handleImagePreview(e) {
-            const files = e.target.files;
-            const preview = document.getElementById('image-preview');
-            preview.innerHTML = '';
-
-            for (let file of files) {
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.className = 'preview-image';
-                        img.style.width = '100px';
-                        img.style.height = '100px';
-                        img.style.objectFit = 'cover';
-                        img.style.margin = '5px';
-                        img.style.borderRadius = '5px';
-                        preview.appendChild(img);
-                    };
-                    reader.readAsDataURL(file);
-                }
-            }
-        }
-
-        // Fetch book details using ISBN via Google Books API
-        async function fetchBookDetailsByISBN(isbn) {
-            const isbnInput = document.getElementById('book-isbn');
-            const loadingIndicator = document.getElementById('isbn-loading');
-            
-            // Show loading state
-            isbnInput.style.borderColor = '#007bff';
-            isbnInput.placeholder = 'Fetching book details...';
-            loadingIndicator.style.display = 'block';
-            
-            try {
-                // Step 1: Search for book by ISBN to get the selfLink
-                const searchResponse = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`);
-                
-                if (searchResponse.ok) {
-                    const searchData = await searchResponse.json();
-                    
-                    if (searchData.totalItems > 0 && searchData.items && searchData.items[0]) {
-                        const selfLink = searchData.items[0].selfLink;
-                        
-                        // Step 2: Fetch detailed information using the selfLink
-                        const detailResponse = await fetch(selfLink);
-                        
-                        if (detailResponse.ok) {
-                            const detailData = await detailResponse.json();
-                            const book = detailData.volumeInfo;
-                            
-                            // Extract more detailed information
-                            const bookInfo = {
-                                title: book.title || '',
-                                author: book.authors ? book.authors.join(', ') : '',
-                                publisher: book.publisher || '',
-                                publicationYear: book.publishedDate ? parseInt(book.publishedDate.split('-')[0]) : '',
-                                pages: book.pageCount || '',
-                                language: book.language || 'English',
-                                genre: book.categories ? book.categories.join(', ') : '',
-                                description: book.description || '',
-                                isbn: book.industryIdentifiers ? 
-                                    book.industryIdentifiers.find(id => id.type === 'ISBN_13')?.identifier || 
-                                    book.industryIdentifiers.find(id => id.type === 'ISBN_10')?.identifier || '' : '',
-                                format: 'paperback',
-                                condition: 'good',
-                                imageUrl: book.imageLinks ? book.imageLinks.thumbnail || book.imageLinks.smallThumbnail : '',
-                                previewLink: book.previewLink || '',
-                                infoLink: book.infoLink || ''
-                            };
-                            
-                            // Auto-fill the form with fetched data
-                            fillBookForm(bookInfo);
-                            utils.showSuccess('Book details fetched from Google Books!');
-                        } else {
-                            utils.showError('Failed to fetch detailed book information. Please enter details manually.');
-                        }
-                    } else {
-                        utils.showError('Book not found for this ISBN. Please enter details manually.');
-                    }
-                } else {
-                    // Fallback: Try OpenLibrary API
-                    await fetchFromOpenLibrary(isbn);
-                }
-            } catch (error) {
-                console.error('Error fetching book details:', error);
-                // Fallback: Try OpenLibrary API
-                await fetchFromOpenLibrary(isbn);
-            } finally {
-                // Reset input styling
-                isbnInput.style.borderColor = '#ddd';
-                isbnInput.placeholder = 'Enter ISBN (10 or 13 digits)';
-                loadingIndicator.style.display = 'none';
-            }
-        }
-
-        // Fallback function using OpenLibrary API
-        async function fetchFromOpenLibrary(isbn) {
-            try {
-                const response = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`);
-                const data = await response.json();
-                
-                const bookKey = `ISBN:${isbn}`;
-                if (data[bookKey]) {
-                    const book = data[bookKey];
-                    const bookInfo = {
-                        title: book.title || '',
-                        author: book.authors ? book.authors[0].name : '',
-                        publisher: book.publishers ? book.publishers[0].name : '',
-                        publicationYear: book.publish_date ? parseInt(book.publish_date) : '',
-                        pages: book.number_of_pages || '',
-                        language: book.languages ? book.languages[0].key : 'English',
-                        genre: book.subjects ? book.subjects[0] : '',
-                        description: book.description ? book.description.value || book.description : '',
-                        format: 'paperback',
-                        condition: 'good'
-                    };
-                    
-                    fillBookForm(bookInfo);
-                    utils.showSuccess('Book details fetched from OpenLibrary!');
-                } else {
-                    utils.showError('Book not found for this ISBN. Please enter details manually.');
-                }
-            } catch (error) {
-                console.error('Error fetching from OpenLibrary:', error);
-                utils.showError('Error fetching book details. Please enter details manually.');
-            }
-        }
-
-        // Auto-fill form with fetched book data
-        function fillBookForm(bookInfo) {
-            if (bookInfo.title) document.getElementById('book-title').value = bookInfo.title;
-            if (bookInfo.author) document.getElementById('book-author').value = bookInfo.author;
-            if (bookInfo.publisher) document.getElementById('book-publisher').value = bookInfo.publisher;
-            if (bookInfo.publicationYear) document.getElementById('book-publication-year').value = bookInfo.publicationYear;
-            if (bookInfo.pages) document.getElementById('book-pages').value = bookInfo.pages;
-            if (bookInfo.language) document.getElementById('book-language').value = bookInfo.language;
-            if (bookInfo.genre) document.getElementById('book-genre').value = bookInfo.genre;
-            if (bookInfo.description) document.getElementById('book-description').value = bookInfo.description;
-            if (bookInfo.isbn) document.getElementById('book-isbn').value = bookInfo.isbn;
-            
-            // Set format dropdown
-            if (bookInfo.format) {
-                const formatSelect = document.getElementById('book-format');
-                const format = bookInfo.format.toLowerCase();
-                if (format.includes('hardcover')) {
-                    formatSelect.value = 'hardcover';
-                } else if (format.includes('paperback')) {
-                    formatSelect.value = 'paperback';
-                } else if (format.includes('ebook') || format.includes('e-book')) {
-                    formatSelect.value = 'ebook';
-                } else if (format.includes('audio')) {
-                    formatSelect.value = 'audiobook';
-                }
-            }
-            
-            // Set condition dropdown
-            if (bookInfo.condition) {
-                const conditionSelect = document.getElementById('book-condition');
-                const condition = bookInfo.condition.toLowerCase();
-                if (condition.includes('new')) {
-                    conditionSelect.value = 'new';
-                } else if (condition.includes('like new')) {
-                    conditionSelect.value = 'like_new';
-                } else if (condition.includes('good')) {
-                    conditionSelect.value = 'good';
-                } else if (condition.includes('fair')) {
-                    conditionSelect.value = 'fair';
-                } else if (condition.includes('poor')) {
-                    conditionSelect.value = 'poor';
-                }
-            }
-            
-            // Store additional information for potential use
-            if (bookInfo.imageUrl) {
-                // You could use this to show a preview of the book cover
-                console.log('Book cover available:', bookInfo.imageUrl);
-            }
-            if (bookInfo.previewLink) {
-                console.log('Preview link available:', bookInfo.previewLink);
-            }
-            if (bookInfo.infoLink) {
-                console.log('Info link available:', bookInfo.infoLink);
-            }
-        }
-
-        // Filter books
-        function filterBooks() {
-            const filterValue = document.getElementById('book-filter').value;
-            const rows = document.querySelectorAll('#books-table-body tr');
-            
-            rows.forEach(row => {
-                const statusCell = row.querySelector('.status');
-                if (statusCell) {
-                    const status = statusCell.textContent.toLowerCase();
-                    const stock = parseInt(row.cells[4].textContent);
-                    
-                    let show = true;
-                    
-                    switch (filterValue) {
-                        case 'active':
-                            show = status === 'active';
-                            break;
-                        case 'inactive':
-                            show = status === 'inactive';
-                            break;
-                        case 'out-of-stock':
-                            show = stock === 0;
-                            break;
-                        default:
-                            show = true;
-                    }
-                    
-                    row.style.display = show ? '' : 'none';
-                }
-            });
-        }
-    </script>
+    <!-- Removed all dynamic scripts for static UI -->
 </body>
 </html> 
